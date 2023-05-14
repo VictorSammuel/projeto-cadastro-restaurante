@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cadastro de Produtos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body onload="init()">
+    <div class="bg">
+        <h1>Cadastro de Produtos</h1>
+    </div>
+    
+
+    <div class="container">
+        <div class="row">
+            <div id="msg" class="col-sm-10 offset-sm-1 ">
+                <!--<div class="alert alert-warning">cadastro não encontrado.</div>-->
+            </div>
+        </div>
+
+        <form id="form-cadastro">
+            <div class="form-group row">
+                <div class="col-sm-4">
+                    <label for="inputId">Id</label>
+                    <input type="text" class="form-control" id="inputId" placeholder="Id" disabled>
+                </div>
+                <div class="col-sm-8">
+                    <label for="inputNome">Nome Completo (*)</label>
+                    <input type="text" class="form-control" id="inputNome" required placeholder="Informe o nome">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-5">
+                    <label for="inputchavepix">Chave Pix(*)</label>
+                    <input type="text" class="form-control" id="inputchavepix" required placeholder="Informe a sua chave PIX">
+                </div>
+                <div class="col-sm-7">
+                    <label for="inputEmail">E-mail (*)</label>
+                    <input type="email" class="form-control" id="inputEmail" required placeholder="Informe o e-mail">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <label for="inputlocal">Local do Evento</label>
+                    <input type="text" class="form-control" id="inputlocal" placeholder="Informe o local do evento" >
+                </div>
+                <div class="col-sm-6">
+                    <label for="inputCardapio">Cardápio</label>
+                    <input type="text" class="form-control" id="inputCardapio" required placeholder="Informe a categoria do cadastro">
+                </div>
+            </div>
+            <div class="form-group row">    
+                <div class="col-sm-12">
+                    <label for="inputSite">Link do cardápio (*)</label>
+                    <input type="text" class="form-control" id="inputSite" required placeholder="Coloque aqui o link do seu cardápio">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-4 ">
+                    <small>(*) Campos obrigatórios </small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <input type="button" class="btn btn-success" id="btnInsert" value="Inserir">
+                    <input type="button" class="btn btn-success" id="btnUpdate" value="Alterar">
+                    <input type="button" class="btn btn-success" id="btnDelete" value="Excluir">
+                    <input type="button" class="btn btn-success" id="btnClear" value="Limpar Dados">
+                    <a href="lista_cadastros.html"><input type="button" class="btn btn-success" id="btnClear" value="Pesquisar Produtos"></a>
+                </div>
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="grid-cadastros" class="table table-striped" style="color:white"  >
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Chave PIX</th>
+                            <th scope="col">E-mail</th>
+                            <th scope="col">Local do Evento</th>
+                            <th scope="col">Nome do Cardápio</th>
+                            <th scope="col">Link do Cardápio</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-cadastros">
+                        <tr >
+                            <td scope="row">1</td>
+                            <td ></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="app.js"></script>
+    <script>
+        function exibecadastros() {
+            // Remove todas as linhas do corpo da tabela
+            $("#table-cadastros").html("");
+            
+            // Popula a tabela com os registros do banco de dados
+            for (i = 0; i < db.data.length; i++) {
+                let cadastro = db.data[i];    
+                $("#table-cadastros").append(`<tr><td scope="row" style="color:white">${cadastro.id}</td>
+                                                <td style="color:white">${cadastro.nome}</td>
+                                                <td style="color:white">${cadastro.chavedopix}</td>
+                                                <td style="color:white">${cadastro.email}</td>
+                                                <td style="color:white" >${cadastro.localdoevento}</td>
+                                                <td style="color:white" >${cadastro.cardapio}</td>
+                                                <td style="color:white">${cadastro.website}</td>
+                                            </tr>`);
+            }
+        }
+
+        function init() {
+            // Adiciona funções para tratar os eventos 
+            $("#btnInsert").click(function () {
+                // Verfica se o formulário está preenchido corretamente
+                if (!$('#form-cadastro')[0].checkValidity()) {
+                    displayMessage("Preencha o formulário corretamente.");
+                    return;
+                }
+
+                // Obtem os valores dos campos do formulário
+                let campoNome = $("#inputNome").val();
+                let campoChavedoPix = $("#inputchavepix").val();
+                let campoEmail = $('#inputEmail').val();
+                let campoLocal = $("#inputlocal").val();
+                let campoCardapio = $('#inputCardapio').val();
+                let campoSite = $('#inputSite').val();
+                let cadastro = { nome: campoNome, 
+                    chavedopix: campoChavedoPix, 
+                    email: campoEmail, 
+                    localdoevento: campoLocal, 
+                    cardapio: campoCardapio,
+                    website: campoSite };
+
+                insertcadastro(cadastro);
+
+                // Reexibe os cadastros
+                exibecadastros();
+
+                // Limpa o formulario
+                $("#form-cadastro")[0].reset();
+            });
+
+            // Intercepta o click do botão Alterar
+            $("#btnUpdate").click(function () {
+                // Obtem os valores dos campos do formulário
+                let campoId = $("#inputId").val();
+                if (campoId == "") {
+                    displayMessage("Selecione um cadastro para ser alterado.");
+                    return;
+                }
+                let campoNome = $("#inputNome").val();
+                let campoChavedoPix = $("#inputchavepix").val();
+                let campoEmail = $("#inputEmail").val();
+                let campoLocal = $("#inputlocal").val();
+                let campoCardapio = $("#inputCardapio").val();
+                let campoSite = $('#inputSite').val();
+                let cadastro = { nome: campoNome, 
+                    chavedopix: campoChavedoPix, 
+                    email: campoEmail, 
+                    localdoevento: campoLocal, 
+                    cardapio: campoCardapio,
+                    website: campoSite };
+
+                updatecadastro(parseInt(campoId), cadastro);
+
+                // Reexibe os cadastros
+                exibecadastros();
+
+                // Limpa o formulario
+                $("#form-cadastro")[0].reset();
+            });
+
+            // Intercepta o click do botão Excluir
+            $("#btnDelete").click(function () {
+                let campoId = $("#inputId").val();
+                if (campoId == "") {
+                    displayMessage("Selecione um cadastro a ser excluído.");
+                    return;
+                }
+                deletecadastro(parseInt(campoId));
+
+                // Reexibe os cadastros
+                exibecadastros();
+
+                // Limpa o formulario
+                $("#form-cadastro")[0].reset();
+            });
+
+            // Intercepta o click do botão Listar cadastros
+            $("#btnClear").click(function () {
+                $("#form-cadastro")[0].reset();
+            });
+
+            // Oculta a mensagem de aviso após alguns segundos
+            $('#msg').bind("DOMSubtreeModified", function () {
+                window.setTimeout(function () {
+                    $(".alert").fadeTo(500, 0).slideUp(500, function () {
+                        $(this).remove();
+                    });
+                }, 5000);
+            });
+
+            // Preenche o formulário quando o usuario clicar em uma linha da tabela 
+            $("#grid-cadastros").on("click", "tr", function (e) {
+                let linhacadastro = this;
+                colunas = linhacadastro.querySelectorAll("td");
+
+                $("#inputId").val(colunas[0].innerText);
+                $("#inputNome").val(colunas[1].innerText);
+                $("#inputchavepix").val(colunas[2].innerText);
+                $("#inputEmail").val(colunas[3].innerText);
+                $("#inputlocal").val(colunas[4].innerText);
+                $("#inputCardapio").val(colunas[5].innerText);
+                $("#inputSite").val(colunas[6].innerText);
+            });
+
+            exibecadastros();
+        }
+    </script>
+</body>
+
+</html>

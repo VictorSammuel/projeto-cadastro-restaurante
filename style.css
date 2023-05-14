@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&display=swap');
+ * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    
+ }
+label {
+    font-weight: bolder;
+    color: white;
+}
+::placeholder {
+    color: black !important;
+    opacity: 3;
+}
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:  black !important;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:  black !important;
+    opacity:  3;
+ }
+ h1 {
+     text-align: center;
+     color: white;
+     font-weight: 1;
+       
+ }
+ .bg {
+    border: 1px solid #000; /* adiciona uma borda sólida de 2px */
+     background-color: #28a745;
+     margin-left:750px;
+     margin-right:750px;
+     border-radius: 15px;
+     margin-top: 10px; 
+ }
+
+ #msg {
+     height: 60px;
+ }
+ #grid-contatos tbody {
+     cursor: pointer;
+     
+ }
+
+body {
+    background: url("restaurante.png") no-repeat center center fixed;
+  background-size: cover;
+    
+}
+
+.col-sm-2 offset-sm-10 {
+    font-style: color white;
+}
+
+
+.col-sm-4 {
+    color: white;
+}
+
+.btn-success {
+    background-color: #28a745;
+  border-color: #000;
+  color: #fff;
+}
+
+@media only screen and (max-device-width: 1652px) and (max-device-height: 897px){
+    h1 { width:100%;
+         margin-left: auto;
+         margin-right: auto;
+         margin-top: auto;
+     } 
+    }
+
+    @media only screen and (max-device-width: 1652px) and (max-device-height: 897px) {
+        .bg { width:100%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: auto;
+         }
+    }
